@@ -3,14 +3,22 @@ using CV19.Models;
 using CV19.ViewModels.Base;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using CV19.Models.Decanat;
 
 namespace CV19.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
+        /*-------------------------------------------------------------------------------------------------------------------------------*/
+
+
+        public ObservableCollection<Group> Groups { get; set; }
+        
 
         #region SelectedPageIndex : int - Индекс выбранной вкладки
 
@@ -52,6 +60,8 @@ namespace CV19.ViewModels
 
         #endregion
 
+        /*-------------------------------------------------------------------------------------------------------------------------------*/
+
         #region Команды
 
         #region CloseApplicationCommand
@@ -79,6 +89,8 @@ namespace CV19.ViewModels
 
         #endregion
 
+        /*-------------------------------------------------------------------------------------------------------------------------------*/
+
         public MainWindowViewModel()
         {
             #region Команды
@@ -98,6 +110,26 @@ namespace CV19.ViewModels
             }
 
             TestDataPoint = data_points;
+
+            var student_index = 1;
+            var students = Enumerable.Range(1, 10).Select(i => new Student()
+            {
+                Name = $"Name {student_index}",
+                Surname = $"Surname {student_index}",
+                Patronymic = $"Patronymic {student_index++}",
+                Birthday = DateTime.Now,
+                Rating = 0
+            });
+
+            var groups = new ObservableCollection<Group>(Enumerable.Range(1, 20).Select(i => new Group()
+            {
+                Name = $"Группа {i}",
+                Students = new ObservableCollection<Student>(students)
+            }));
+
+            Groups = new ObservableCollection<Group>(groups);
         }
+
+        /*-------------------------------------------------------------------------------------------------------------------------------*/
     }
 }

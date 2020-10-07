@@ -43,25 +43,23 @@
             <StatusBarItem Content="{Binding SelectedPageIndex}" />
         </StatusBar>
         <TabControl SelectedIndex="{Binding SelectedPageIndex}">
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <fa5:ImageAwesome Icon="Regular_File" Height="13" Margin="0, 0, 5, 0" Foreground="Red"></fa5:ImageAwesome>
-                        <TextBlock>Вкладка 1</TextBlock>
-                    </StackPanel>
-                </TabItem.Header>
+            <TabItem Header="Студенты">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="250"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+                    <GroupBox Header="Группы" Grid.Column="0">
+                        <ListBox ItemsSource="{Binding Groups}" DisplayMemberPath="Name"/>
+                    </GroupBox>
+                    <GroupBox Header="Студенты" Grid.Column="1">
+                        <DataGrid>
+
+                        </DataGrid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="График" Height="22" Margin="-2,0,-2,0" VerticalAlignment="Bottom">
+            <TabItem Header="График" Height="22" VerticalAlignment="Bottom">
                 <oxy:Plot>
                     <oxy:Plot.Axes>
                         <oxy:LinearAxis Position="Left"/>
@@ -73,10 +71,9 @@
                                     DataFieldY="YValue"/>
                 </oxy:Plot>
             </TabItem>
-            <TabItem Header="Вкладка 2"></TabItem>
-            <TabItem Header="Вкладка 22"></TabItem>
-            <TabItem Header="Вкладка 2222"></TabItem>
-            <TabItem Header="Вкладка 2222"></TabItem>
+            <TabItem Header="Вкладка 22"/>
+            <TabItem Header="Вкладка 2222"/>
+            <TabItem Header="Вкладка 2222"/>
         </TabControl>
     </DockPanel>
 </Window>
