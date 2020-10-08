@@ -43,6 +43,28 @@
             <StatusBarItem Content="{Binding SelectedPageIndex}" />
         </StatusBar>
         <TabControl SelectedIndex="{Binding SelectedPageIndex}">
+            <TabItem Header="Разнородные данные">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="Элементы">
+                        <GroupBox.Resources>
+                            <DataTemplate DataType="{x:Type decanat:Group}">
+                                <TextBlock Text="{Binding Name, StringFormat='Группа {0}'}"></TextBlock>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type decanat:Student}">
+                                <TextBlock Text="{Binding Name, StringFormat='Имя {0}'}"></TextBlock>
+                            </DataTemplate>
+                        </GroupBox.Resources>
+                        <ListBox ItemsSource="{Binding CompositeCollection}" SelectedItem="{Binding SelectedCompositeValue}"/>
+                    </GroupBox>
+                    <GroupBox Header="Выбранный элемент" Grid.Column="1">
+                        <ContentControl Content="{Binding SelectedCompositeValue}"/>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
             <TabItem Header="Студенты">
                 <Grid>
                     <Grid.ColumnDefinitions>
