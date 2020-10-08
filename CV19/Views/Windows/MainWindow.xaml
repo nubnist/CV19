@@ -46,28 +46,6 @@
             <StatusBarItem Content="{Binding SelectedPageIndex}" />
         </StatusBar>
         <TabControl SelectedIndex="{Binding SelectedPageIndex}">
-            <TabItem Header="Разнородные данные">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <GroupBox Header="Элементы">
-                        <GroupBox.Resources>
-                            <DataTemplate DataType="{x:Type decanat:Group}">
-                                <TextBlock Text="{Binding Name, StringFormat='Группа {0}'}"></TextBlock>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type decanat:Student}">
-                                <TextBlock Text="{Binding Name, StringFormat='Имя {0}'}"></TextBlock>
-                            </DataTemplate>
-                        </GroupBox.Resources>
-                        <ListBox ItemsSource="{Binding CompositeCollection}" SelectedItem="{Binding SelectedCompositeValue}"/>
-                    </GroupBox>
-                    <GroupBox Header="Выбранный элемент" Grid.Column="1">
-                        <ContentControl Content="{Binding SelectedCompositeValue}"/>
-                    </GroupBox>
-                </Grid>
-            </TabItem>
             <TabItem Header="Студенты">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -76,46 +54,58 @@
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="Группы" Grid.Column="0">
                         <DockPanel>
-                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="0, 3">
-                                <Button Content="Добавить" Command="{Binding CreateNewGroupComand}" Style="{StaticResource PrimaryButton}"></Button>
-                                <Button Content="Удалить"  Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}" Style="{StaticResource DangerButton}"></Button>
+                            <UniformGrid DockPanel.Dock="Bottom" 
+                                         Rows="1" 
+                                         Margin="0, 3">
+                                <Button Content="Добавить" 
+                                        Command="{Binding CreateNewGroupComand}" 
+                                        Style="{StaticResource PrimaryButton}"/>
+                                <Button Content="Удалить"  
+                                        Command="{Binding DeleteGroupCommand}" 
+                                        CommandParameter="{Binding SelectedGroup}" 
+                                        Style="{StaticResource DangerButton}"/>
                             </UniformGrid>
-                            <ListBox ItemsSource="{Binding Groups}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedGroup}" SelectedIndex="0"/>
+                            <ListBox ItemsSource="{Binding Groups}" 
+                                     DisplayMemberPath="Name" 
+                                     SelectedItem="{Binding SelectedGroup}" 
+                                     SelectedIndex="0"/>
                         </DockPanel>
                     </GroupBox>
-                    <GroupBox Header="{Binding SelectedGroup.Name, FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}" Grid.Column="1">
-                        <DataGrid ItemsSource="{Binding SelectedGroup.Students}" AutoGenerateColumns="False" 
-                                  GridLinesVisibility="Vertical" VerticalGridLinesBrush="DarkGray" AlternatingRowBackground="LightGray">
+                    <GroupBox Header="{Binding SelectedGroup.Name, FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}" 
+                              Grid.Column="1">
+                        <DataGrid ItemsSource="{Binding SelectedGroup.Students}" 
+                                  AutoGenerateColumns="False" 
+                                  GridLinesVisibility="Vertical" 
+                                  VerticalGridLinesBrush="DarkGray" 
+                                  AlternatingRowBackground="LightGray">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Фамилия"  Binding="{Binding Surname}"/>
                                 <DataGridTextColumn Header="Имя" Binding="{Binding Name}"/>
                                 <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}"/>
                                 <DataGridTextColumn Header="Рейтинг" Binding="{Binding Rating}"/>
                                 <DataGridTemplateColumn Header="Дата рождения">
-                                    <!--<DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate DataType="decanat:Student">
-                                            <DatePicker SelectedDate="{Binding Birthday}"></DatePicker>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="decanat:Student">
-                                            <TextBlock Text="{Binding Birthday, StringFormat='dd.MM.yyyy'}"></TextBlock>
+                                            <TextBlock Text="{Binding Birthday, StringFormat='dd.MM.yyyy'}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                     <DataGridTemplateColumn.CellEditingTemplate>
                                         <DataTemplate DataType="decanat:Student">
-                                            <DatePicker SelectedDate="{Binding Birthday}"></DatePicker>
+                                            <DatePicker SelectedDate="{Binding Birthday}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Группа" Binding="{Binding DataContext.SelectedGroup.Name, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
-                                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*"/>
+                                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" 
+                                                    Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="График" Height="22" VerticalAlignment="Bottom">
+            <TabItem Header="График" 
+                     Visibility="Collapsed"
+                     Height="22" VerticalAlignment="Bottom">
                 <oxy:Plot>
                     <oxy:Plot.Axes>
                         <oxy:LinearAxis Position="Left"/>
@@ -127,11 +117,6 @@
                                     DataFieldY="YValue"/>
                 </oxy:Plot>
             </TabItem>
-            <TabItem Header="Вкладка 22">
-                <Button Content="TestBnt" Height="40" Width="70" Style="{StaticResource DangerButton}"></Button>
-            </TabItem>
-            <TabItem Header="Вкладка 2222"/>
-            <TabItem Header="Вкладка 2222"/>
         </TabControl>
     </DockPanel>
 </Window>
