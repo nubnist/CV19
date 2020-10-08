@@ -4,6 +4,7 @@ using CV19.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -29,8 +30,6 @@ namespace CV19.ViewModels
         public object SelectedCompositeValue { get => _SelectedCompositeValue; set => Set(ref _SelectedCompositeValue, value); }
 
         #endregion
-
-        
 
         #region SelectedGroup : Group - Выбранная группа
 
@@ -98,7 +97,7 @@ namespace CV19.ViewModels
 
         #endregion
 
-
+        #region ChangeTabIndex
         public ICommand ChangeTabIndex { get; set; }
 
         private bool CanChangeTabIndexCommandExecute(object p) => SelectedPageIndex >= 0;
@@ -111,6 +110,45 @@ namespace CV19.ViewModels
 
         #endregion
 
+        #region CreateNewGroupComand
+
+        public ICommand CreateNewGroupComand { get; }
+
+        private bool CanCreateNewGroupComandExecute(object p) => true;
+
+        private void OnCreateNewGroupComandExecuted(object p)
+        {
+            var group_max_index = Groups.Count + 1;
+            var new_group = new Group()
+            {
+                Name = $"Группа {group_max_index}",
+                Students = new ObservableCollection<Student>()
+            };
+
+            Groups.Add(new_group);
+            SelectedGroup = new_group;
+        }
+
+        #endregion
+
+        #region DeleteGroupCommand
+
+        public ICommand DeleteGroupCommand { get; }
+        private bool CanDeleteGroupCommandComandExecute(object p) => p is Group group && Groups.Contains(group);
+
+        private void OnDeleteGroupComandExecuted(object p)
+        {
+            if (!(p is Group group)) return;
+            int index = Groups.IndexOf(SelectedGroup);
+            Groups.Remove(group);
+            if (Groups.Count != 0)
+                SelectedGroup = index - 1 >= 0 ? Groups[index - 1] : Groups[index];
+        }
+
+        #endregion
+
+        #endregion
+
         /*-------------------------------------------------------------------------------------------------------------------------------*/
 
         public MainWindowViewModel()
@@ -119,16 +157,20 @@ namespace CV19.ViewModels
 
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommand);
             ChangeTabIndex = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
+            CreateNewGroupComand = new LambdaCommand(OnCreateNewGroupComandExecuted, CanCreateNewGroupComandExecute);
+            DeleteGroupCommand = new LambdaCommand(OnDeleteGroupComandExecuted, CanDeleteGroupCommandComandExecute);
 
             #endregion
 
-            var data_points= new List<DataPoint>((int)(360 / 0.1));
+            #region Тестовый регион
+
+            var data_points = new List<DataPoint>((int)(360 / 0.1));
             for (var x = 0d; x < 360; x += 0.1)
             {
                 const double to_rad = Math.PI / 180;
                 var y = Math.Sin(x * to_rad);
 
-                data_points.Add(new DataPoint {XValue = x, YValue = y});
+                data_points.Add(new DataPoint { XValue = x, YValue = y });
             }
 
             TestDataPoint = data_points;
@@ -160,6 +202,8 @@ namespace CV19.ViewModels
             data_list.Add(group.Students[0]);
 
             CompositeCollection = data_list.ToArray();
+
+            #endregion
 
         }
 

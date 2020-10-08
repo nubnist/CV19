@@ -13,6 +13,9 @@
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        
+    </Window.Resources>
 
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -72,7 +75,13 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="Группы" Grid.Column="0">
-                        <ListBox ItemsSource="{Binding Groups}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedGroup}" SelectedIndex="0"/>
+                        <DockPanel>
+                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="0, 3">
+                                <Button Content="Добавить" Command="{Binding CreateNewGroupComand}" Style="{StaticResource PrimaryButton}"></Button>
+                                <Button Content="Удалить"  Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}" Style="{StaticResource DangerButton}"></Button>
+                            </UniformGrid>
+                            <ListBox ItemsSource="{Binding Groups}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedGroup}" SelectedIndex="0"/>
+                        </DockPanel>
                     </GroupBox>
                     <GroupBox Header="{Binding SelectedGroup.Name, FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}" Grid.Column="1">
                         <DataGrid ItemsSource="{Binding SelectedGroup.Students}" AutoGenerateColumns="False" 
@@ -118,7 +127,9 @@
                                     DataFieldY="YValue"/>
                 </oxy:Plot>
             </TabItem>
-            <TabItem Header="Вкладка 22"/>
+            <TabItem Header="Вкладка 22">
+                <Button Content="TestBnt" Height="40" Width="70" Style="{StaticResource DangerButton}"></Button>
+            </TabItem>
             <TabItem Header="Вкладка 2222"/>
             <TabItem Header="Вкладка 2222"/>
         </TabControl>
