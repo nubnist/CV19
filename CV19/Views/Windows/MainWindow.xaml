@@ -77,7 +77,16 @@
                             <ListBox ItemsSource="{Binding Source={StaticResource GroupsCollection}}" 
                                      DisplayMemberPath="Name" 
                                      SelectedItem="{Binding SelectedGroup}" 
-                                     SelectedIndex="0"/>
+                                     SelectedIndex="0"
+                                     VirtualizingPanel.CacheLength="10"
+                                     VirtualizingPanel.IsVirtualizing="True"
+                                     VirtualizingPanel.VirtualizationMode="Recycling">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
                         </DockPanel>
                     </GroupBox>
                     <GroupBox Header="{Binding SelectedGroup.Name, FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}" 
