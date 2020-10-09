@@ -54,9 +54,14 @@
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="Группы" Grid.Column="0">
                         <DockPanel>
+                            <DockPanel.Resources>
+                                <CollectionViewSource x:Key="GroupsCollection"
+                                                      Source="{Binding Groups}"
+                                                      Filter="GroupsCollection_OnFilter"/>
+                            </DockPanel.Resources>
                             <DockPanel DockPanel.Dock="Top">
                                 <fa5:ImageAwesome Height="12" Icon="Solid_Search"></fa5:ImageAwesome>
-                                <TextBox/>
+                                <TextBox Name="GroupNameFilterText" TextChanged="OnGroupsFilterTextChanged"/>
                             </DockPanel>
                             <UniformGrid DockPanel.Dock="Bottom" 
                                          Rows="1" 
@@ -69,7 +74,7 @@
                                         CommandParameter="{Binding SelectedGroup}" 
                                         Style="{StaticResource DangerButton}"/>
                             </UniformGrid>
-                            <ListBox ItemsSource="{Binding Groups}" 
+                            <ListBox ItemsSource="{Binding Source={StaticResource GroupsCollection}}" 
                                      DisplayMemberPath="Name" 
                                      SelectedItem="{Binding SelectedGroup}" 
                                      SelectedIndex="0"/>

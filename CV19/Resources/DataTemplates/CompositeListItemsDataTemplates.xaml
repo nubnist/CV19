@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:CV19.Resources.DataTemplates"
                     xmlns:decanat="clr-namespace:CV19.Models.Decanat">
 
     <DataTemplate DataType="{x:Type decanat:Group}">
