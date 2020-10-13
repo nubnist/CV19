@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:decanat="clr-namespace:CV19.Models.Decanat">
+
+    <DataTemplate DataType="{x:Type decanat:Group}">
+        <TextBlock>
+            <Run Foreground="Red">Группа: </Run> <TextBlock Text="{Binding Name}"></TextBlock>
+        </TextBlock>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type decanat:Student}">
+        <TextBlock>
+            <Run Foreground="Green">Студент: </Run> <TextBlock Text="{Binding Name}"></TextBlock>
+        </TextBlock>
+    </DataTemplate>
+
+</ResourceDictionary>
