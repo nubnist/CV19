@@ -1,15 +1,18 @@
 ﻿using CV19.Infrastructure.Commands;
-using CV19.Models;
 using CV19.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
+using CV19.Models;
 using CV19.Models.Decanat;
+
 
 namespace CV19.ViewModels
 {
@@ -37,7 +40,57 @@ namespace CV19.ViewModels
         private Group _SelectedGroup;
 
         /// <summary>Выбранная группа</summary>
-        public Group SelectedGroup { get => _SelectedGroup; set => Set(ref _SelectedGroup, value); }
+        public Group SelectedGroup 
+        { 
+            get => _SelectedGroup;
+            set
+            {
+                if (!Set(ref _SelectedGroup, value)) return;
+                _SelectedGroupStudents.Source = value?.Students;
+                _SelectedGroupStudents.View.Refresh();
+                OnPropertyChanged(nameof(SelectedGroupStudents));
+            }
+        }
+
+        #endregion
+
+        #region StudentFilterText : string - Текст фильтров студентов
+
+        /// <summary>Текст фильтров студентов</summary>
+        private string _StudentFilterText;
+
+        /// <summary>Текст фильтров студентов</summary>
+        public string StudentFilterText
+        {
+            get => _StudentFilterText;
+            set
+            {
+                if (!Set(ref _StudentFilterText, value)) return; 
+                _SelectedGroupStudents.View.Refresh();
+            }
+        }
+
+        #endregion
+
+        #region SelectedGroupStudents
+
+        private readonly CollectionViewSource _SelectedGroupStudents = new CollectionViewSource();
+
+        private void OnStudentFiltred(object Sender, FilterEventArgs E)
+        {
+            if(!(E.Item is Student student)) return;
+            var filter_text = _StudentFilterText;
+            if(string.IsNullOrEmpty(filter_text)) return;
+            if (student.Name is null || student.Surname is null || student.Patronymic is null) return;
+
+            if(student.Name.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+            if (student.Surname.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+            if (student.Patronymic.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+
+            E.Accepted = false;
+        }
+
+        public ICollectionView SelectedGroupStudents => _SelectedGroupStudents?.View;
 
         #endregion
 
@@ -193,10 +246,8 @@ namespace CV19.ViewModels
 
             Groups = new ObservableCollection<Group>(groups);
 
-            var data_list = new List<object>();
+            var data_list = new List<object> {"Hello world", 42};
 
-            data_list.Add("Hello world");
-            data_list.Add(42);
             var group = Groups[1];
             data_list.Add(group);
             data_list.Add(group.Students[0]);
@@ -205,6 +256,7 @@ namespace CV19.ViewModels
 
             #endregion
 
+            _SelectedGroupStudents.Filter += OnStudentFiltred;
         }
 
         /*-------------------------------------------------------------------------------------------------------------------------------*/

@@ -94,9 +94,9 @@
                         <DockPanel>
                             <DockPanel DockPanel.Dock="Top">
                                 <fa5:ImageAwesome Height="12" Icon="Solid_Search"></fa5:ImageAwesome>
-                                <TextBox/>
+                                <TextBox Text="{Binding StudentFilterText, UpdateSourceTrigger=PropertyChanged}"/>
                             </DockPanel>
-                            <DataGrid ItemsSource="{Binding SelectedGroup.Students}" 
+                            <DataGrid ItemsSource="{Binding SelectedGroupStudents}" 
                                       AutoGenerateColumns="False" 
                                       GridLinesVisibility="Vertical" 
                                       VerticalGridLinesBrush="DarkGray" 
